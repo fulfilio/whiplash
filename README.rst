@@ -11,7 +11,7 @@ Whiplash API Python Client
 
 Python API Client for the whiplash API
 
-* Free software: ISC license
+* Free software: BSD license
 * Documentation: https://whiplash.readthedocs.org.
 
 Features
