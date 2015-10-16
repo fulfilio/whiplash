@@ -8,23 +8,41 @@ test_whiplash
 Tests for `whiplash` module.
 """
 
-import unittest
+import pytest
+import time
+import logging
 
-from whiplash import whiplash
+logging.getLogger().setLevel(logging.DEBUG)
+requests_log = logging.getLogger("requests.packages.urllib3")
+requests_log.setLevel(logging.DEBUG)
+requests_log.propagate = True
 
-
-class TestWhiplash(unittest.TestCase):
-
-    def setUp(self):
-        pass
-
-    def tearDown(self):
-        pass
-
-    def test_000_something(self):
-        pass
+from whiplash import Whiplash
 
 
-if __name__ == '__main__':
-    import sys
-    sys.exit(unittest.main())
+@pytest.fixture
+def client():
+    return Whiplash('Hc2BHTn3bcrwyPooyYTP', True)
+
+
+def test_item(client):
+    sku = 'FULFIL:SKU-%d' % time.time()
+    group_id = 'Fulfil_IO Test Products'
+
+    # Create product
+    product = client.item.create(
+        title='Imaginary Test Product',
+        sku=sku,
+        group_id=group_id,
+    )
+
+    # Assert that the response has same SKU
+    assert product.sku == sku
+
+    # Search and find the SKU by product
+    product, = client.item.get_by(sku=sku)
+    assert product.sku == sku
+
+    # Search and find all SKUs fulfil.IO created
+    products = client.item.get_by(group_id=group_id)
+    assert len(products) > 0

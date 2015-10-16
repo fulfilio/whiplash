@@ -3,9 +3,24 @@
 
 
 try:
-    from setuptools import setup
+    from setuptools import setup, Command
 except ImportError:
-    from distutils.core import setup
+    from distutils.core import setup, Command
+
+
+class PyTest(Command):
+    user_options = []
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        import subprocess
+        import sys
+        errno = subprocess.call([sys.executable, 'runtests.py'])
+        raise SystemExit(errno)
 
 
 with open('README.rst') as readme_file:
@@ -15,11 +30,11 @@ with open('HISTORY.rst') as history_file:
     history = history_file.read().replace('.. :changelog:', '')
 
 requirements = [
-    # TODO: put package requirements here
+    'requests',
 ]
 
 test_requirements = [
-    # TODO: put package test requirements here
+    'pytest',
 ]
 
 setup(
@@ -33,11 +48,10 @@ setup(
     packages=[
         'whiplash',
     ],
-    package_dir={'whiplash':
-                 'whiplash'},
+    package_dir={'whiplash': 'whiplash'},
     include_package_data=True,
     install_requires=requirements,
-    license="ISCL",
+    license="BSD",
     zip_safe=False,
     keywords='whiplash',
     classifiers=[
@@ -52,6 +66,6 @@ setup(
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
     ],
-    test_suite='tests',
+    cmdclass = {'test': PyTest},
     tests_require=test_requirements
 )

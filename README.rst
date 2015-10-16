@@ -17,4 +17,34 @@ Python API Client for the whiplash API
 Features
 --------
 
-* TODO
+* Add Items
+* Manage Orders
+* Manage Ship Notices
+
+Installation
+------------
+
+::
+
+    pip install whiplash
+
+
+Example
+-------
+
+Create a new Item::
+
+
+    from whiplash import Whiplash
+
+    # Not for production
+    whiplash = Whiplash('Hc2BHTn3bcrwyPooyYTP', test=True)
+
+    product1 = whiplash.item.create(
+        title='Apple iPhone 5',
+        sku='A1429',
+        group_id='iPhone 5',
+    )
+    print product1.title
+    print product1.id
+    print product1.currency
