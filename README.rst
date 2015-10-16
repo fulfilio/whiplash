@@ -32,7 +32,9 @@ Installation
 Example
 -------
 
-Create a new Item::
+Create a new Item
+
+.. code-block:: python
 
 
     from whiplash import Whiplash
