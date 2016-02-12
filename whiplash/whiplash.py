@@ -47,7 +47,7 @@ class BaseClient(object):
     def process(self, response):
         print response.status_code, response.content
         response.raise_for_status()
-        return response.json()
+        return response.json() if response.text else None
 
     def _get(self, path, params=None):
         return self.process(
